@@ -89,3 +89,6 @@ $RECYCLE.BIN/
 *.env
 appsettings.*.local.json
 secrets.json
+
+## GitHub Copilot local instructions (keep local, don't publish)
+.github/copilot-instructions.md
