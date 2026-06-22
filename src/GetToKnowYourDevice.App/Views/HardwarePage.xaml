@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Page
+    x:Class="GetToKnowYourDevice.App.Views.HardwarePage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    mc:Ignorable="d"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006">
+
+    <Grid Padding="24">
+        <TextBlock Text="No scan yet. Run a scan to view hardware."
+                   HorizontalAlignment="Center" VerticalAlignment="Center"
+                   Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                   Visibility="{x:Bind ViewModel.HasReport, Mode=OneWay, Converter={StaticResource BoolToVisibility}, ConverterParameter=invert}" />
+
+        <ScrollViewer Visibility="{x:Bind ViewModel.HasReport, Mode=OneWay, Converter={StaticResource BoolToVisibility}}">
+            <StackPanel Spacing="12">
+                <TextBlock Text="Hardware" Style="{StaticResource TitleTextBlockStyle}" />
+
+                <Expander Header="System" IsExpanded="True" HorizontalAlignment="Stretch">
+                    <StackPanel Spacing="4">
+                        <TextBlock Text="{x:Bind ViewModel.Hardware.System.Manufacturer, Mode=OneWay, Converter={StaticResource Unavailable}}" />
+                        <TextBlock Text="{x:Bind ViewModel.Hardware.System.Model, Mode=OneWay, Converter={StaticResource Unavailable}}" />
+                        <TextBlock Text="{x:Bind ViewModel.Hardware.System.ChassisType, Mode=OneWay, Converter={StaticResource Unavailable}}" />
+                    </StackPanel>
+                </Expander>
+
+                <Expander Header="Processors" IsExpanded="True" HorizontalAlignment="Stretch">
+                    <ItemsControl ItemsSource="{x:Bind ViewModel.Hardware.Processors, Mode=OneWay}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel Margin="0,4">
+                                    <TextBlock Text="{Binding Name}" FontWeight="SemiBold" />
+                                    <TextBlock FontSize="12" Foreground="{ThemeResource TextFillColorSecondaryBrush}">
+                                        <Run Text="Cores:" /><Run Text="{Binding PhysicalCores}" />
+                                        <Run Text=" Threads:" /><Run Text="{Binding LogicalProcessors}" />
+                                        <Run Text=" Max:" /><Run Text="{Binding MaxClockMhz}" /><Run Text=" MHz" />
+                                    </TextBlock>
+                                </StackPanel>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </Expander>
+
+                <Expander Header="Memory Modules" HorizontalAlignment="Stretch">
+                    <ItemsControl ItemsSource="{x:Bind ViewModel.Hardware.MemoryModules, Mode=OneWay}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Margin="0,2">
+                                    <Run Text="{Binding Manufacturer}" /><Run Text=" " />
+                                    <Run Text="{Binding PartNumber}" /><Run Text=" - " />
+                                    <Run Text="{Binding SpeedMhz}" /><Run Text=" MHz" />
+                                </TextBlock>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </Expander>
+
+                <Expander Header="Graphics" HorizontalAlignment="Stretch">
+                    <ItemsControl ItemsSource="{x:Bind ViewModel.Hardware.GraphicsAdapters, Mode=OneWay}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel Margin="0,4">
+                                    <TextBlock Text="{Binding Name}" FontWeight="SemiBold" />
+                                    <TextBlock FontSize="12" Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                               Text="{Binding DriverVersion}" />
+                                </StackPanel>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </Expander>
+
+                <Expander Header="Displays" HorizontalAlignment="Stretch">
+                    <ItemsControl ItemsSource="{x:Bind ViewModel.Hardware.Displays, Mode=OneWay}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Margin="0,2">
+                                    <Run Text="{Binding MonitorName}" /><Run Text=" " />
+                                    <Run Text="{Binding Resolution}" />
+                                </TextBlock>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </Expander>
+
+                <Expander Header="Audio" HorizontalAlignment="Stretch">
+                    <ItemsControl ItemsSource="{x:Bind ViewModel.Hardware.AudioDevices, Mode=OneWay}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Name}" Margin="0,2" />
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </Expander>
+
+                <Expander Header="Peripherals" HorizontalAlignment="Stretch">
+                    <ItemsControl ItemsSource="{x:Bind ViewModel.Hardware.Peripherals, Mode=OneWay}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Margin="0,2">
+                                    <Run Text="{Binding DeviceClass}" /><Run Text=": " />
+                                    <Run Text="{Binding Name}" />
+                                </TextBlock>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </Expander>
+            </StackPanel>
+        </ScrollViewer>
+    </Grid>
+</Page>

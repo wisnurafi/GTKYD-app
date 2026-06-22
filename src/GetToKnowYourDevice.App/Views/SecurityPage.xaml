@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Page
+    x:Class="GetToKnowYourDevice.App.Views.SecurityPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    mc:Ignorable="d"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006">
+
+    <Grid Padding="24">
+        <TextBlock Text="No scan yet. Run a scan to view security."
+                   HorizontalAlignment="Center" VerticalAlignment="Center"
+                   Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                   Visibility="{x:Bind ViewModel.HasReport, Mode=OneWay, Converter={StaticResource BoolToVisibility}, ConverterParameter=invert}" />
+
+        <ScrollViewer Visibility="{x:Bind ViewModel.HasReport, Mode=OneWay, Converter={StaticResource BoolToVisibility}}">
+            <StackPanel Spacing="12">
+                <TextBlock Text="Security" Style="{StaticResource TitleTextBlockStyle}" />
+                <muxc:InfoBar xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
+                              IsOpen="True" IsClosable="False" Severity="Informational"
+                              Message="This page is read-only. The app never changes security settings." />
+
+                <Expander Header="Antivirus" IsExpanded="True" HorizontalAlignment="Stretch">
+                    <ItemsControl ItemsSource="{x:Bind ViewModel.Security.AntivirusProducts, Mode=OneWay}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel Margin="0,4">
+                                    <TextBlock Text="{Binding ProductName}" FontWeight="SemiBold" />
+                                    <TextBlock FontSize="12" Foreground="{ThemeResource TextFillColorSecondaryBrush}">
+                                        <Run Text="Enabled:" /><Run Text="{Binding IsEnabled}" />
+                                        <Run Text="  Real-time:" /><Run Text="{Binding RealTimeProtectionEnabled}" />
+                                    </TextBlock>
+                                </StackPanel>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </Expander>
+
+                <Expander Header="Firewall" HorizontalAlignment="Stretch">
+                    <StackPanel Spacing="4">
+                        <TextBlock>
+                            <Run Text="Domain enabled:" FontWeight="SemiBold" />
+                            <Run Text="{x:Bind ViewModel.Security.Firewall.Domain.IsEnabled, Mode=OneWay}" />
+                        </TextBlock>
+                        <TextBlock>
+                            <Run Text="Private enabled:" FontWeight="SemiBold" />
+                            <Run Text="{x:Bind ViewModel.Security.Firewall.Private.IsEnabled, Mode=OneWay}" />
+                        </TextBlock>
+                        <TextBlock>
+                            <Run Text="Public enabled:" FontWeight="SemiBold" />
+                            <Run Text="{x:Bind ViewModel.Security.Firewall.Public.IsEnabled, Mode=OneWay}" />
+                        </TextBlock>
+                    </StackPanel>
+                </Expander>
+
+                <Expander Header="Device Security" IsExpanded="True" HorizontalAlignment="Stretch">
+                    <StackPanel Spacing="4">
+                        <TextBlock><Run Text="Secure Boot:" FontWeight="SemiBold" /><Run Text="{x:Bind ViewModel.Security.Device.SecureBootEnabled, Mode=OneWay}" /></TextBlock>
+                        <TextBlock><Run Text="TPM Detected:" FontWeight="SemiBold" /><Run Text="{x:Bind ViewModel.Security.Device.TpmDetected, Mode=OneWay}" /></TextBlock>
+                        <TextBlock><Run Text="TPM Version:" FontWeight="SemiBold" /><Run Text="{x:Bind ViewModel.Security.Device.TpmVersion, Mode=OneWay, Converter={StaticResource Unavailable}}" /></TextBlock>
+                        <TextBlock><Run Text="UAC Enabled:" FontWeight="SemiBold" /><Run Text="{x:Bind ViewModel.Security.Device.UacEnabled, Mode=OneWay}" /></TextBlock>
+                        <TextBlock><Run Text="Pending Reboot:" FontWeight="SemiBold" /><Run Text="{x:Bind ViewModel.Security.Device.PendingReboot, Mode=OneWay}" /></TextBlock>
+                    </StackPanel>
+                </Expander>
+            </StackPanel>
+        </ScrollViewer>
+    </Grid>
+</Page>

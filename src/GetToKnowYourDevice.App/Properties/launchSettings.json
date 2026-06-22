@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "GetToKnowYourDevice (Package)": {
+      "commandName": "MsixPackage"
+    },
+    "GetToKnowYourDevice (Unpackaged)": {
+      "commandName": "Project"
+    }
+  }
+}

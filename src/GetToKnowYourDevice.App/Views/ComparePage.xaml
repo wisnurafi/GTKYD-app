@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Page
+    x:Class="GetToKnowYourDevice.App.Views.ComparePage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    mc:Ignorable="d"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006">
+
+    <Grid Padding="24" RowSpacing="12">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <TextBlock Grid.Row="0" Text="Compare Reports" Style="{StaticResource TitleTextBlockStyle}" />
+
+        <Grid Grid.Row="1" ColumnSpacing="12">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <ComboBox Grid.Column="0" Header="Baseline" HorizontalAlignment="Stretch"
+                      ItemsSource="{x:Bind ViewModel.AvailableScans, Mode=OneWay}"
+                      SelectedItem="{x:Bind ViewModel.Baseline, Mode=TwoWay}">
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock><Run Text="{Binding ScanType}" /><Run Text=" " /><Run Text="{Binding ScanName}" /></TextBlock>
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
+            <ComboBox Grid.Column="1" Header="Comparison" HorizontalAlignment="Stretch"
+                      ItemsSource="{x:Bind ViewModel.AvailableScans, Mode=OneWay}"
+                      SelectedItem="{x:Bind ViewModel.Comparison, Mode=TwoWay}">
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock><Run Text="{Binding ScanType}" /><Run Text=" " /><Run Text="{Binding ScanName}" /></TextBlock>
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
+            <Button Grid.Column="2" Content="Compare" VerticalAlignment="Bottom"
+                    Command="{x:Bind ViewModel.CompareCommand}" Style="{StaticResource AccentButtonStyle}" />
+        </Grid>
+
+        <StackPanel Grid.Row="2" Orientation="Horizontal" Spacing="16"
+                    Visibility="{x:Bind ViewModel.HasResult, Mode=OneWay, Converter={StaticResource BoolToVisibility}}">
+            <TextBlock><Run Text="Added:" /><Run Text="{x:Bind ViewModel.AddedCount, Mode=OneWay}" /></TextBlock>
+            <TextBlock><Run Text="Removed:" /><Run Text="{x:Bind ViewModel.RemovedCount, Mode=OneWay}" /></TextBlock>
+            <TextBlock><Run Text="Changed:" /><Run Text="{x:Bind ViewModel.ChangedCount, Mode=OneWay}" /></TextBlock>
+            <CheckBox Content="Include volatile fields" IsChecked="{x:Bind ViewModel.IncludeVolatile, Mode=TwoWay}" />
+        </StackPanel>
+
+        <ListView Grid.Row="3" ItemsSource="{x:Bind ViewModel.Differences, Mode=OneWay}">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Margin="0,4">
+                        <TextBlock FontWeight="SemiBold">
+                            <Run Text="{Binding Kind}" /><Run Text=" - " /><Run Text="{Binding PropertyPath}" />
+                        </TextBlock>
+                        <TextBlock FontSize="12" Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                   Text="{Binding Description}" TextWrapping="Wrap" />
+                    </StackPanel>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+    </Grid>
+</Page>

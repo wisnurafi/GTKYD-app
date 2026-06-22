@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Page
+    x:Class="GetToKnowYourDevice.App.Views.SummaryPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
+    mc:Ignorable="d"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006">
+
+    <Grid Padding="24">
+        <!-- Empty state: no scan yet -->
+        <StackPanel x:Name="EmptyState"
+                    HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="12"
+                    Visibility="{x:Bind ViewModel.HasReport, Mode=OneWay, Converter={StaticResource BoolToVisibility}, ConverterParameter=invert}">
+            <FontIcon Glyph="&#xE950;" FontSize="48" HorizontalAlignment="Center" />
+            <TextBlock Text="No scan yet" FontSize="20" FontWeight="SemiBold" HorizontalAlignment="Center" />
+            <TextBlock Text="Run your first scan to inspect this device."
+                       Foreground="{ThemeResource TextFillColorSecondaryBrush}" HorizontalAlignment="Center" />
+            <Button Content="Run Your First Scan" Style="{StaticResource AccentButtonStyle}"
+                    HorizontalAlignment="Center" Click="RunFirstScan_Click" />
+        </StackPanel>
+
+        <ScrollViewer Visibility="{x:Bind ViewModel.HasReport, Mode=OneWay, Converter={StaticResource BoolToVisibility}}">
+            <StackPanel Spacing="16">
+                <TextBlock Text="Device Summary" Style="{StaticResource TitleTextBlockStyle}" />
+
+                <!-- Health score card -->
+                <Border Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                        BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}" BorderThickness="1"
+                        CornerRadius="8" Padding="20">
+                    <Grid ColumnSpacing="20">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <StackPanel Grid.Column="0">
+                            <TextBlock Text="{x:Bind ViewModel.Health.Score, Mode=OneWay}" FontSize="48" FontWeight="Bold" />
+                            <TextBlock Text="Health Score" Foreground="{ThemeResource TextFillColorSecondaryBrush}" />
+                        </StackPanel>
+                        <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                            <TextBlock Text="Findings" FontWeight="SemiBold" Margin="0,0,0,4" />
+                            <ItemsControl ItemsSource="{x:Bind ViewModel.Health.Findings, Mode=OneWay}">
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding Reason}" TextWrapping="Wrap" FontSize="12"
+                                                   Foreground="{ThemeResource TextFillColorSecondaryBrush}" />
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                        </StackPanel>
+                    </Grid>
+                </Border>
+
+                <!-- Hardware overview cards -->
+                <Grid ColumnSpacing="12" RowSpacing="12">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+
+                    <StackPanel Grid.Row="0" Grid.Column="0" Style="{StaticResource SummaryCard}">
+                        <TextBlock Text="CPU" Style="{StaticResource CardLabel}" />
+                        <TextBlock Text="{x:Bind ViewModel.CpuSummary, Mode=OneWay}" TextWrapping="Wrap" />
+                    </StackPanel>
+                    <StackPanel Grid.Row="0" Grid.Column="1" Style="{StaticResource SummaryCard}">
+                        <TextBlock Text="Memory" Style="{StaticResource CardLabel}" />
+                        <TextBlock Text="{x:Bind ViewModel.RamSummary, Mode=OneWay}" TextWrapping="Wrap" />
+                    </StackPanel>
+                    <StackPanel Grid.Row="0" Grid.Column="2" Style="{StaticResource SummaryCard}">
+                        <TextBlock Text="Graphics" Style="{StaticResource CardLabel}" />
+                        <TextBlock Text="{x:Bind ViewModel.GpuSummary, Mode=OneWay}" TextWrapping="Wrap" />
+                    </StackPanel>
+                    <StackPanel Grid.Row="1" Grid.Column="0" Style="{StaticResource SummaryCard}">
+                        <TextBlock Text="Storage" Style="{StaticResource CardLabel}" />
+                        <TextBlock Text="{x:Bind ViewModel.StorageSummary, Mode=OneWay}" TextWrapping="Wrap" />
+                    </StackPanel>
+                    <StackPanel Grid.Row="1" Grid.Column="1" Style="{StaticResource SummaryCard}">
+                        <TextBlock Text="Battery" Style="{StaticResource CardLabel}" />
+                        <TextBlock Text="{x:Bind ViewModel.BatterySummary, Mode=OneWay}" TextWrapping="Wrap" />
+                    </StackPanel>
+                    <StackPanel Grid.Row="1" Grid.Column="2" Style="{StaticResource SummaryCard}">
+                        <TextBlock Text="Security" Style="{StaticResource CardLabel}" />
+                        <TextBlock Text="{x:Bind ViewModel.SecuritySummary, Mode=OneWay}" TextWrapping="Wrap" />
+                    </StackPanel>
+                    <StackPanel Grid.Row="2" Grid.Column="0" Style="{StaticResource SummaryCard}">
+                        <TextBlock Text="Network" Style="{StaticResource CardLabel}" />
+                        <TextBlock Text="{x:Bind ViewModel.NetworkSummary, Mode=OneWay}" TextWrapping="Wrap" />
+                    </StackPanel>
+                    <StackPanel Grid.Row="2" Grid.Column="1" Style="{StaticResource SummaryCard}">
+                        <TextBlock Text="Uptime" Style="{StaticResource CardLabel}" />
+                        <TextBlock Text="{x:Bind ViewModel.UptimeDisplay, Mode=OneWay}" TextWrapping="Wrap" />
+                    </StackPanel>
+                    <StackPanel Grid.Row="2" Grid.Column="2" Style="{StaticResource SummaryCard}">
+                        <TextBlock Text="Operating System" Style="{StaticResource CardLabel}" />
+                        <TextBlock Text="{x:Bind ViewModel.Os.Edition, Mode=OneWay, Converter={StaticResource Unavailable}}" TextWrapping="Wrap" />
+                    </StackPanel>
+                </Grid>
+            </StackPanel>
+        </ScrollViewer>
+    </Grid>
+</Page>
