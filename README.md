@@ -6,7 +6,8 @@ A local-first Windows desktop application for device inspection, system informat
 
 ## Screenshots
 
-_Placeholder — add screenshots of the Summary, Hardware, Drivers, and Compare pages here._
+<img width="1425" height="760" alt="image" src="https://github.com/user-attachments/assets/062c72b3-fde3-445d-a8f5-b5733887795f" />
+
 
 ## Installation (end users)
 
