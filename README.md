@@ -214,3 +214,12 @@ Export file names use the safe format `GetToKnowYourDevice_DEVICE_YYYY-MM-DD_HH-
 - Comparison export (JSON/CSV/PDF) and richer comparison filters in the UI.
 - Cross-platform scanner implementations behind the existing `IDeviceScanner<T>` abstraction.
 - Localization (the architecture is language-ready).
+
+## Project docs
+
+- `CONTRIBUTING.md` — building, adding a scanner, contribution rules
+- `SECURITY.md` — how to report vulnerabilities
+
+## License
+
+MIT — see [LICENSE](LICENSE).
